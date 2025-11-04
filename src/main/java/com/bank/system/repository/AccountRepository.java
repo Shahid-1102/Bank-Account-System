@@ -38,4 +38,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
      * @return A list of accounts matching the status.
      */
     List<Account> findByStatus(AccountStatus status);
+    
+    long countByStatus(AccountStatus status);
 }

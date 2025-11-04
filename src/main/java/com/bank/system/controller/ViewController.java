@@ -20,4 +20,24 @@ public class ViewController {
     public String registerPage() {
         return "register";
     }
+    
+    @GetMapping("/customer/dashboard")
+    public String customerDashboard() {
+        return "customer/dashboard";
+    }
+
+    @GetMapping("/customer/create-account")
+    public String createAccountPage() {
+        return "customer/create-account";
+    }
+    
+    @GetMapping("/customer/history")
+    public String historyPage() {
+        return "customer/history";
+    }
+    
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard() {
+        return "admin/dashboard";
+    }
 }

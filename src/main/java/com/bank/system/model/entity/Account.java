@@ -56,4 +56,7 @@ public class Account {
     
     @Column(name = "approved_by")
     private String approvedBy; // Stores the username of the admin who approved
+
+    @Column(name = "admin_remarks")
+    private String adminRemarks; // Stores the reason for rejection or other notes
 }
