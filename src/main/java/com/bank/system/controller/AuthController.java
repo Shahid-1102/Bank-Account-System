@@ -5,6 +5,9 @@ import com.bank.system.dto.LoginRequest;
 import com.bank.system.dto.RegisterRequest;
 import com.bank.system.service.AuthService;
 import jakarta.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+	
+	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private AuthService authService;
@@ -23,6 +28,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
         try {
+        	log.info("Received request at /api/auth/register endpoint.");
             authService.register(registerRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
         } catch (IllegalStateException e) {
