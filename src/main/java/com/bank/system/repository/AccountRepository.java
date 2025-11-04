@@ -2,6 +2,9 @@ package com.bank.system.repository;
 
 import com.bank.system.model.entity.Account;
 import com.bank.system.model.enums.AccountStatus;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -37,7 +40,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
      * @param status The status to filter by (e.g., PENDING).
      * @return A list of accounts matching the status.
      */
-    List<Account> findByStatus(AccountStatus status);
+//    List<Account> findByStatus(AccountStatus status);
+    Page<Account> findByStatus(AccountStatus status, Pageable pageable);
+
     
     long countByStatus(AccountStatus status);
 }

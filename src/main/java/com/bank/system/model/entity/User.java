@@ -1,6 +1,8 @@
 package com.bank.system.model.entity;
 
 import com.bank.system.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -57,5 +59,6 @@ public class User {
     private boolean isActive = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Account> accounts;
 }

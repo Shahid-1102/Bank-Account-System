@@ -2,6 +2,8 @@ package com.bank.system.model.entity;
 
 import com.bank.system.model.enums.AccountStatus;
 import com.bank.system.model.enums.AccountType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -45,6 +47,7 @@ public class Account {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @CreationTimestamp

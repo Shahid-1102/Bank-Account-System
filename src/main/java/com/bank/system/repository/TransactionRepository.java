@@ -33,4 +33,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         @Param("accountId") Long accountId, 
         @Param("startDate") LocalDateTime startDate, 
         @Param("endDate") LocalDateTime endDate);
+    
+    List<Transaction> findFirst10ByFromAccountIdOrToAccountIdOrderByIdDesc(Long fromId, Long toId);
 }

@@ -40,4 +40,19 @@ public class ViewController {
     public String adminDashboard() {
         return "admin/dashboard";
     }
+    
+    @GetMapping("/customer/statement")
+    public String statementPage() {
+        return "customer/statement";
+    }
+    
+    @GetMapping("/admin/customer-details")
+    public String customerDetailsPage() {
+        return "admin/customer-details";
+    }
+    
+    @GetMapping("/admin/history")
+    public String adminHistoryPage() {
+        return "admin/history";
+    }
 }

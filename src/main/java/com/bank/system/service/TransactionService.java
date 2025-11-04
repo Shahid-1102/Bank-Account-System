@@ -151,7 +151,7 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
     
-    private TransactionDto convertToDto(Transaction transaction) {
+    public TransactionDto convertToDto(Transaction transaction) {
         TransactionDto dto = new TransactionDto();
         dto.setId(transaction.getId());
         dto.setTransactionType(transaction.getTransactionType());
@@ -163,5 +163,16 @@ public class TransactionService {
         dto.setDescription(transaction.getDescription());
         dto.setBalanceAfter(transaction.getBalanceAfter());
         return dto;
+    }
+    
+    public List<TransactionDto> getMiniStatement(String accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+            .orElseThrow(() -> new IllegalArgumentException("Account not found."));
+        validateAccountOwnership(account);
+        
+        return transactionRepository.findFirst10ByFromAccountIdOrToAccountIdOrderByIdDesc(account.getId(), account.getId())
+            .stream()
+            .map(this::convertToDto)
+            .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Account Statement</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; color: #0056b3; }
+        .details { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        .details td { border: 1px solid #ddd; padding: 8px; }
+        .details .label { font-weight: bold; width: 25%; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .footer { text-align: center; margin-top: 20px; font-size: 0.8em; color: #777; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Bank of India</h1>
+    <p>Your Reliable Banking Partner</p>
+    <h2>Account Statement</h2>
+</div>
+
+<h3>Account Details</h3>
+<table class="details">
+    <tr>
+        <td class="label">Account Holder</td>
+        <td th:text="${account.user.fullName}">John Doe</td>
+    </tr>
+    <tr>
+        <td class="label">Account Number</td>
+        <td th:text="${account.accountNumber}">1234567890</td>
+    </tr>
+    <tr>
+        <td class="label">Account Type</td>
+        <td th:text="${account.accountType}">SAVINGS</td>
+    </tr>
+    <tr>
+        <td class="label">Statement Period</td>
+        <td th:text="${startDate} + ' to ' + ${endDate}">01-Jan-2025 to 31-Jan-2025</td>
+    </tr>
+    <tr>
+        <td class="label">Generated On</td>
+        <td th:text="${generationDate}">01-Feb-2025</td>
+    </tr>
+</table>
+
+<h3>Transactions</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Timestamp</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Balance After</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tx : ${transactions}">
+        <td th:text="${#temporals.format(tx.timestamp, 'dd-MMM-yyyy HH:mm')}">2025-01-15 10:30</td>
+        <td th:text="${tx.description}">Deposit</td>
+        <td th:text="${tx.transactionType}">DEPOSIT</td>
+        <td th:text="'₹' + ${#numbers.formatDecimal(tx.amount, 1, 2)}">₹500.00</td>
+        <td th:text="'₹' + ${#numbers.formatDecimal(tx.balanceAfter, 1, 2)}">₹5500.00</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(transactions)}">
+        <td colspan="5" style="text-align: center;">No transactions found in this period.</td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <p>This is a computer-generated statement and does not require a signature.</p>
+</div>
+
+</body>
+</html>

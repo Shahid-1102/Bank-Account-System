@@ -66,4 +66,15 @@ public class TransactionController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    
+    @GetMapping("/mini-statement/{accountNumber}")
+    public ResponseEntity<?> getMiniStatement(@PathVariable String accountNumber) {
+        try {
+            // Note: Service method needs to be created
+            List<TransactionDto> history = transactionService.getMiniStatement(accountNumber);
+            return ResponseEntity.ok(history);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

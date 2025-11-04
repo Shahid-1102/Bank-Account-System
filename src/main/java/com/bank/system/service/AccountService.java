@@ -84,6 +84,13 @@ public class AccountService {
         dto.setUserId(account.getUser().getId());
         dto.setUserFullName(account.getUser().getFullName());
         dto.setCreatedAt(account.getCreatedAt());
+        dto.setAdminRemarks(account.getAdminRemarks());
         return dto;
+    }
+    
+    public List<AccountDto> getAccountsByUserId(Long userId) {
+        // No ownership validation here since it's for an admin
+        List<Account> accounts = accountRepository.findByUserId(userId);
+        return accounts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 }

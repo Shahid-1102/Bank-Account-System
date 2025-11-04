@@ -16,4 +16,5 @@ public class AccountDto {
     private Long userId;
     private String userFullName;
     private LocalDateTime createdAt;
+    private String adminRemarks;
 }
