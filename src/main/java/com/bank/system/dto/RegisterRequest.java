@@ -28,6 +28,5 @@ public class RegisterRequest {
     @NotBlank(message = "Full name cannot be blank")
     private String fullName;
 
-    @NotNull(message = "Role must be specified")
     private Role role;
 }

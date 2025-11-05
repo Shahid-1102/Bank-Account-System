@@ -3,17 +3,22 @@ package com.bank.system.controller;
 import com.bank.system.dto.AccountDto;
 import com.bank.system.dto.AdminActionRequest;
 import com.bank.system.dto.AdminDashboardStatsDto;
+import com.bank.system.dto.RegisterRequest;
 import com.bank.system.dto.UserDto;
 import com.bank.system.dto.UserDto;
 import com.bank.system.model.entity.User;
+import com.bank.system.model.enums.Role;
 import com.bank.system.service.AccountService;
 import com.bank.system.service.AdminService;
+import com.bank.system.service.AuthService;
+
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +35,9 @@ public class AdminController {
     
     @Autowired 
     private AccountService accountService;
+    
+    @Autowired
+    private AuthService authService;
 
 
 //    @GetMapping("/accounts/pending")
@@ -103,6 +111,18 @@ public class AdminController {
             return ResponseEntity.ok(adminService.getAccountHistory(accountNumber));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    @PostMapping("/create-admin")
+    public ResponseEntity<String> createAdmin(@Valid @RequestBody RegisterRequest registerRequest) {
+        try {
+            // Explicitly set the role to ADMIN to prevent any mistakes
+            registerRequest.setRole(Role.ADMIN);
+            authService.register(registerRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Admin user registered successfully!");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

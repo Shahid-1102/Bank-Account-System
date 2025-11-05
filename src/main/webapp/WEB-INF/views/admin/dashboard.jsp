@@ -7,8 +7,13 @@
 <body>
 <jsp:include page="../includes/header.jsp" />
 <div class="container mt-4">
-    <h3>Admin Dashboard</h3><hr>
-    <div class="row" id="stats-cards"></div>
+	<div class="d-flex justify-content-between align-items-center mb-4">
+	        <h3 class="mb-0">Admin Dashboard</h3>
+	        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adminRegisterModal">
+	            Register New Admin
+	        </button>
+	    </div>
+	<div class="row" id="stats-cards"></div>
 
     <div class="mt-4">
         <h4>Pending Account Requests</h4>
@@ -27,6 +32,28 @@
             <tbody id="customers-table"></tbody>
         </table>
         <div id="customer-pagination" class="d-flex justify-content-end"></div>
+    </div>
+</div>
+
+<!-- Admin Registration Modal -->
+<div class="modal fade" id="adminRegisterModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Register New Admin User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="admin-reg-message" class="alert" style="display: none;"></div>
+                <form id="adminRegisterForm">
+                    <div class="mb-3"><label for="admin-username" class="form-label">Username</label><input type="text" class="form-control" id="admin-username" required></div>
+                    <div class="mb-3"><label for="admin-fullName" class="form-label">Full Name</label><input type="text" class="form-control" id="admin-fullName" required></div>
+                    <div class="mb-3"><label for="admin-email" class="form-label">Email</label><input type="email" class="form-control" id="admin-email" required></div>
+                    <div class="mb-3"><label for="admin-password" class="form-label">Password</label><input type="password" class="form-control" id="admin-password" required></div>
+                    <button type="submit" class="btn btn-primary w-100">Register Admin</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -175,6 +202,42 @@
             }, 300);
         });
     });
+	
+	
+	document.getElementById('adminRegisterForm').addEventListener('submit', function(e) {
+	    e.preventDefault();
+	    const messageDiv = document.getElementById('admin-reg-message');
+	    const token = localStorage.getItem('jwtToken');
+
+	    const adminData = {
+	        username: document.getElementById('admin-username').value,
+	        fullName: document.getElementById('admin-fullName').value,
+	        email: document.getElementById('admin-email').value,
+	        password: document.getElementById('admin-password').value
+	    };
+
+	    fetch('/api/admin/create-admin', {
+	        method: 'POST',
+	        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+	        body: JSON.stringify(adminData)
+	    })
+	    .then(async response => {
+	        const text = await response.text();
+	        if (!response.ok) throw new Error(text);
+	        return text;
+	    })
+	    .then(data => {
+	        messageDiv.className = 'alert alert-success';
+	        messageDiv.textContent = data;
+	        messageDiv.style.display = 'block';
+	        document.getElementById('adminRegisterForm').reset();
+	    })
+	    .catch(error => {
+	        messageDiv.className = 'alert alert-danger';
+	        messageDiv.textContent = 'Error: ' + error.message;
+	        messageDiv.style.display = 'block';
+	    });
+	});
 </script>
 </body>
 </html>

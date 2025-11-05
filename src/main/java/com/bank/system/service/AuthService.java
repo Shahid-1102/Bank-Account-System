@@ -4,6 +4,7 @@ import com.bank.system.dto.AuthResponse;
 import com.bank.system.dto.LoginRequest;
 import com.bank.system.dto.RegisterRequest;
 import com.bank.system.model.entity.User;
+import com.bank.system.model.enums.Role;
 import com.bank.system.repository.UserRepository;
 import com.bank.system.security.JwtUtil;
 
@@ -80,7 +81,12 @@ public class AuthService {
         log.info("Step 3 PASSED: Password encoded.");
 
         user.setFullName(registerRequest.getFullName());
-        user.setRole(registerRequest.getRole());
+//        user.setRole(registerRequest.getRole());
+        if (registerRequest.getRole() == null) {
+            user.setRole(Role.CUSTOMER); // Default to CUSTOMER for public registration
+        } else {
+            user.setRole(registerRequest.getRole()); // Use role for admin registration
+        }
         user.setActive(true);
 
         log.info("Step 4: Saving user to the database...");

@@ -110,9 +110,11 @@
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = `statement-${accountNumber}-${startDate}.pdf`;
+			
+			const username = localStorage.getItem('username') || 'user';
+			a.download = username + '-' + accountNumber + '-' + "Statements" + '.pdf';
             document.body.appendChild(a);
-a.click();
+			a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
         })

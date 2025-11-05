@@ -4,15 +4,16 @@
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container mt-5">
+<body class="bg-light"> <%-- Add a light background for contrast --%>
+
+<jsp:include page="includes/public_header.jsp" />
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Bank Account System - Login</h3>
-                </div>
-                <div class="card-body">
+            <div class="card shadow-sm"> <%-- Add a subtle shadow --%>
+                <div class="card-body p-4">
+                    <h3 class="card-title text-center mb-4">Login to Your Account</h3>
                     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
                     <form id="loginForm">
                         <div class="mb-3">
@@ -35,58 +36,36 @@
 </div>
 
 <script>
+    // JavaScript remains the same
     document.getElementById('loginForm').addEventListener('submit', function (event) {
-        // Prevent the default form submission which reloads the page
         event.preventDefault();
-
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const errorMessageDiv = document.getElementById('errorMessage');
-
-        // Hide previous error messages
         errorMessageDiv.style.display = 'none';
+        const loginData = { username: username, password: password };
 
-        // Create the request body as a JavaScript object
-        const loginData = {
-            username: username,
-            password: password
-        };
-
-        // Use the Fetch API to send a POST request to our backend
         fetch('/api/auth/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)
         })
         .then(response => {
-            if (!response.ok) {
-                // If response is not 2xx, throw an error to be caught below
-                throw new Error('Invalid username or password.');
-            }
-            return response.json(); // Parse the JSON from the response
+            if (!response.ok) { throw new Error('Invalid username or password.'); }
+            return response.json();
         })
         .then(data => {
-            // On successful login, data will contain the token
-            console.log('Login successful:', data);
-
-            // Store the token in localStorage to use for subsequent API calls
             localStorage.setItem('jwtToken', data.token);
             localStorage.setItem('username', data.username);
             localStorage.setItem('role', data.role);
             
-            // Redirect to a dashboard page (we will create this later)
-            // Based on role, you can redirect to different pages
             if (data.role === 'ADMIN') {
-                 window.location.href = '/admin/dashboard'; // To be created
+                 window.location.href = '/admin/dashboard';
             } else {
-                 window.location.href = '/customer/dashboard'; // To be created
+                 window.location.href = '/customer/dashboard';
             }
         })
         .catch(error => {
-            // Display error message to the user
-            console.error('Login failed:', error);
             errorMessageDiv.textContent = error.message;
             errorMessageDiv.style.display = 'block';
         });

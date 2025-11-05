@@ -4,15 +4,16 @@
     <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container mt-5">
+<body class="bg-light">
+
+<jsp:include page="includes/public_header.jsp" />
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Register New User</h3>
-                </div>
-                <div class="card-body">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="card-title text-center mb-4">Create Your Customer Account</h3>
                     <div id="successMessage" class="alert alert-success" style="display: none;"></div>
                     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
 
@@ -32,15 +33,11 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" required>
-                            <div class="form-text">Must be at least 8 characters, with a number, letter, and special character.</div>
+                            <div class="form-text">Must be 8+ characters, with a number, letter, and special character.</div>
                         </div>
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
-                            <select class="form-select" id="role">
-                                <option value="CUSTOMER" selected>Customer</option>
-                                <option value="ADMIN">Admin</option>
-                            </select>
-                        </div>
+                        
+                        <%-- ROLE DROPDOWN IS NOW REMOVED --%>
+
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                     <div class="mt-3 text-center">
@@ -53,58 +50,39 @@
 </div>
 
 <script>
+    // JavaScript remains almost the same, but we no longer read the 'role'
     document.getElementById('registerForm').addEventListener('submit', function(event) {
-        // 1. Prevent the browser's default form submission behavior
         event.preventDefault();
-
-        // 2. Get references to the message divs
         const successMessageDiv = document.getElementById('successMessage');
         const errorMessageDiv = document.getElementById('errorMessage');
-        
-        // Hide previous messages
         successMessageDiv.style.display = 'none';
         errorMessageDiv.style.display = 'none';
 
-        // 3. Read the values from the form inputs
         const registerData = {
             username: document.getElementById('username').value,
             fullName: document.getElementById('fullName').value,
             email: document.getElementById('email').value,
-            password: document.getElementById('password').value,
-            role: document.getElementById('role').value
+            password: document.getElementById('password').value
+            // No 'role' is sent from here
         };
 
-        // 4. Use the Fetch API to send the data to our backend REST endpoint
         fetch('/api/auth/register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(registerData),
         })
         .then(async response => {
-            const responseBody = await response.text(); // Read body as text first
-            if (!response.ok) {
-                // If the server responded with an error, use the body as the error message
-                throw new Error(responseBody || 'Registration failed with status: ' + response.status);
-            }
+            const responseBody = await response.text();
+            if (!response.ok) { throw new Error(responseBody || 'Registration failed'); }
             return responseBody;
         })
         .then(data => {
-            // 5. Handle a successful response
-            console.log('Success:', data);
-            successMessageDiv.textContent = data + " You will be redirected to the login page shortly.";
+            successMessageDiv.textContent = data + " Redirecting to login...";
             successMessageDiv.style.display = 'block';
-            document.getElementById('registerForm').reset(); // Clear the form
-
-            // Redirect to login page after a short delay
-            setTimeout(() => {
-                window.location.href = '/auth/login';
-            }, 3000); // 3-second delay
+            document.getElementById('registerForm').reset();
+            setTimeout(() => { window.location.href = '/auth/login'; }, 3000);
         })
         .catch(error => {
-            // 6. Handle any errors (network error or error from the server)
-            console.error('Error:', error);
             errorMessageDiv.textContent = error.message;
             errorMessageDiv.style.display = 'block';
         });
