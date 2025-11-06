@@ -1,0 +1,41 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidebar -->
+  <mat-sidenav #sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/customer/dashboard" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/customer/profile" routerLinkActive="active-link">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
+      <!-- <a mat-list-item routerLink="/customer/settings" routerLinkActive="active-link">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a> -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content Area -->
+  <mat-sidenav-content>
+    <!-- Header Toolbar -->
+    <mat-toolbar color="primary" class="header-toolbar">
+      <span>Bank of Trust</span>
+      <span class="spacer"></span>
+
+      <span class="welcome-text" *ngIf="username">
+        Welcome, <strong>{{ username }}</strong>
+      </span>
+
+      <button mat-icon-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!-- Page Content -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

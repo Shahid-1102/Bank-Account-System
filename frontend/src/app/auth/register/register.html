@@ -1,0 +1,70 @@
+<!-- Path: src/app/auth/register/register.html -->
+
+<div class="auth-container p-3">
+  <div class="card auth-card">
+    <div class="card-body p-4 p-md-5">
+      <h2 class="text-center fw-bold mb-2">Bank of Trust</h2>
+      <p class="text-center text-muted mb-4">Create Your Customer Account</p>
+
+      <ngb-alert *ngIf="successMessage" [type]="'success'" (closed)="successMessage = null">
+        {{ successMessage }}
+      </ngb-alert>
+      <ngb-alert *ngIf="errorMessage" [type]="'danger'" (closed)="errorMessage = null">
+        {{ errorMessage }}
+      </ngb-alert>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="fullName" placeholder="Full Name" formControlName="fullName">
+          <label for="fullName">Full Name</label>
+          <div *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched" class="text-danger small mt-1">
+            Full Name is required.
+          </div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="username" placeholder="Username" formControlName="username">
+          <label for="username">Username</label>
+           <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-danger small mt-1">
+            <div *ngIf="registerForm.get('username')?.hasError('required')">Username is required.</div>
+            <div *ngIf="registerForm.get('username')?.hasError('minlength')">Must be at least 3 characters.</div>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email">
+          <label for="email">Email</label>
+           <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger small mt-1">
+            <div *ngIf="registerForm.get('email')?.hasError('required')">Email is required.</div>
+            <div *ngIf="registerForm.get('email')?.hasError('email')">Must be a valid email.</div>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <label for="password">Password</label>
+           <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger small mt-1">
+            <div *ngIf="registerForm.get('password')?.hasError('required')">Password is required.</div>
+            <div *ngIf="registerForm.get('password')?.hasError('minlength')">Must be at least 8 characters.</div>
+            <div *ngIf="registerForm.get('password')?.hasError('pattern')">Must include a letter, number, and special character.</div>
+          </div>
+        </div>
+
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" formControlName="confirmPassword">
+          <label for="confirmPassword">Confirm Password</label>
+          <div *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched" class="text-danger small mt-1">
+            Passwords do not match.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="registerForm.invalid">Register</button>
+      </form>
+      <hr class="my-4">
+      <div class="text-center">
+        Already have an account? <a routerLink="/auth/login">Login Here</a>
+      </div>
+    </div>
+  </div>
+</div>

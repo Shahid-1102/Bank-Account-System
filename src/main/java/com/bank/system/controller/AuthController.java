@@ -2,6 +2,7 @@ package com.bank.system.controller;
 
 import com.bank.system.dto.AuthResponse;
 import com.bank.system.dto.LoginRequest;
+import com.bank.system.dto.ProfileDto;
 import com.bank.system.dto.RegisterRequest;
 import com.bank.system.service.AuthService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +42,10 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest);
         return ResponseEntity.ok(authResponse);
+    }
+    
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileDto> getMyProfile() {
+        return ResponseEntity.ok(authService.getMyProfile());
     }
 }

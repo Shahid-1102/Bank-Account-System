@@ -1,0 +1,83 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid rgba(0,0,0,0.12);
+}
+
+.header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content-area {
+  padding: 2rem;
+}
+
+.active-link {
+  background-color: rgba(63, 81, 181, 0.1); // Use your theme's primary color with low opacity
+  color: #3f51b5;
+  font-weight: 500;
+}
+
+.welcome-text {
+  margin-right: 1.5rem;
+  font-size: 1rem;
+}
+
+.header-toolbar {
+  background: linear-gradient(90deg, #1565c0, #1e88e5);
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .welcome-text {
+    font-size: 0.95rem;
+    margin-right: 1rem;
+    color: #e3f2fd;
+    strong {
+      color: #fff;
+    }
+  }
+
+  button[mat-icon-button] {
+    color: #fff;
+    transition: transform 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      color: #bbdefb;
+      transform: rotate(-15deg);
+    }
+  }
+}
+
+.content-area {
+  padding: 2rem;
+  background-color: #f9fbfd;
+  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.content-area {
+  padding: 2rem;
+  background-color: #f9fbfd;
+  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-in-out;
+}

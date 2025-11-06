@@ -5,6 +5,7 @@ import com.bank.system.dto.AdminDashboardStatsDto;
 import com.bank.system.dto.TransactionDto;
 import com.bank.system.dto.UserDto;
 import com.bank.system.model.entity.Account;
+import com.bank.system.model.entity.Transaction;
 import com.bank.system.model.entity.User;
 import com.bank.system.model.enums.AccountStatus;
 import com.bank.system.model.enums.Role;
@@ -134,16 +135,27 @@ public class AdminService {
         return userDto;
     }
 	
-	public List<TransactionDto> getAccountHistory(String accountNumber) {
-	    // No ownership validation is needed because this is an admin-only function
+//	public List<TransactionDto> getAccountHistory(String accountNumber) {
+//	    // No ownership validation is needed because this is an admin-only function
+//	    Account account = accountRepository.findByAccountNumber(accountNumber)
+//	            .orElseThrow(() -> new IllegalArgumentException("Account not found."));
+//
+//	    // We can reuse the public method from TransactionService if it's refactored,
+//	    // or call the repository directly. Let's call the repository for simplicity.
+//	    return transactionRepository.findByAccountId(account.getId())
+//	            .stream()
+//	            .map(transactionService::convertToDto) // Reuse the converter
+//	            .collect(Collectors.toList());
+//	}
+	
+	public Page<TransactionDto> getAccountHistory(String accountNumber, int page, int size) {
 	    Account account = accountRepository.findByAccountNumber(accountNumber)
 	            .orElseThrow(() -> new IllegalArgumentException("Account not found."));
-
-	    // We can reuse the public method from TransactionService if it's refactored,
-	    // or call the repository directly. Let's call the repository for simplicity.
-	    return transactionRepository.findByAccountId(account.getId())
-	            .stream()
-	            .map(transactionService::convertToDto) // Reuse the converter
-	            .collect(Collectors.toList());
+	            
+	    Pageable pageable = PageRequest.of(page, size);
+	    
+	    Page<Transaction> transactionPage = transactionRepository.findByAccountIdWithPagination(account.getId(), pageable);
+	    
+	    return transactionPage.map(transactionService::convertToDto);
 	}
 }

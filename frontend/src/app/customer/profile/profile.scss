@@ -1,0 +1,135 @@
+@use '@angular/material' as mat;
+
+// Page container
+.container-fluid {
+  min-height: 80vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f0f6ff 0%, #ffffff 100%);
+  animation: fadeIn 0.6s ease-in-out;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0d47a1;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+}
+
+// Card styling
+mat-card {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  mat-card-header {
+    background: #0d47a1;
+    color: white;
+    padding: 1.5rem;
+
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    mat-card-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      color: #e3f2fd;
+    }
+  }
+
+  mat-card-content {
+    padding: 1.5rem;
+  }
+}
+
+// Material list styling
+// Material list styling
+mat-list {
+  padding: 0;
+
+  mat-list-item {
+    display: flex;
+    align-items: center; // Ensures vertical centering
+    // padding: 1rem 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    mat-icon {
+      flex-shrink: 0;
+      color: #0d47a1;
+      font-size: 24px; // Default Material size
+      margin-right: 1rem;
+      vertical-align: middle;
+    //   align-self: center; // Vertically centers in flex container
+    }
+
+    [matListItemTitle] {
+      font-weight: 600;
+      color: #212121;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    [matListItemLine] {
+      color: #757575;
+      font-size: 0.9rem;
+      margin-top: 0.15rem;
+    }
+  }
+}
+
+
+// Loading spinner
+.d-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+
+  h4 {
+    margin-left: 1rem;
+    color: #0d47a1;
+    font-weight: 500;
+  }
+}
+
+// Subtle fade-in animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  mat-card {
+    margin: 0 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  mat-icon {
+    font-size: 1.5rem;
+  }
+}

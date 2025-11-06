@@ -4,6 +4,7 @@ import com.bank.system.dto.AccountDto;
 import com.bank.system.dto.AdminActionRequest;
 import com.bank.system.dto.AdminDashboardStatsDto;
 import com.bank.system.dto.RegisterRequest;
+import com.bank.system.dto.TransactionDto;
 import com.bank.system.dto.UserDto;
 import com.bank.system.dto.UserDto;
 import com.bank.system.model.entity.User;
@@ -105,13 +106,22 @@ public class AdminController {
         return ResponseEntity.ok(accountService.getAccountsByUserId(userId));
     }
     
+//    @GetMapping("/accounts/history/{accountNumber}")
+//    public ResponseEntity<?> getAccountHistoryForCustomer(@PathVariable String accountNumber) {
+//        try {
+//            return ResponseEntity.ok(adminService.getAccountHistory(accountNumber));
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+    
     @GetMapping("/accounts/history/{accountNumber}")
-    public ResponseEntity<?> getAccountHistoryForCustomer(@PathVariable String accountNumber) {
-        try {
-            return ResponseEntity.ok(adminService.getAccountHistory(accountNumber));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Page<TransactionDto>> getAccountHistoryForCustomer(
+            @PathVariable String accountNumber,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        // No try-catch needed; exceptions will be handled globally
+        return ResponseEntity.ok(adminService.getAccountHistory(accountNumber, page, size));
     }
     
     @PostMapping("/create-admin")

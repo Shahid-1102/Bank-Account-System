@@ -1,0 +1,28 @@
+<div class="auth-container p-3">
+  <div class="card auth-card">
+    <div class="card-body p-4 p-md-5">
+      <h2 class="text-center fw-bold mb-2">Bank of Trust</h2>
+      <p class="text-center text-muted mb-4">Welcome Back</p>
+      
+      <ngb-alert *ngIf="errorMessage" [type]="'danger'" (closed)="errorMessage = null">
+        {{ errorMessage }}
+      </ngb-alert>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="username" placeholder="Username" formControlName="username">
+          <label for="username">Username</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <label for="password">Password</label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="loginForm.invalid">Login</button>
+      </form>
+      <hr class="my-4">
+      <div class="text-center">
+        Don't have an account? <a routerLink="/auth/register">Register Here</a>
+      </div>
+    </div>
+  </div>
+</div>

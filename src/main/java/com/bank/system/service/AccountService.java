@@ -34,8 +34,11 @@ public class AccountService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         // 2. Apply business rule: Max 3 accounts per user
-        if (accountRepository.countByUserId(currentUser.getId()) >= 3) {
-            throw new IllegalStateException("User cannot have more than 3 accounts.");
+//        if (accountRepository.countByUserId(currentUser.getId()) >= 3) {
+//            throw new IllegalStateException("User cannot have more than 3 accounts.");
+//        }
+        if (accountRepository.countByUserAndStatusNot(currentUser, AccountStatus.REJECTED) >= 3) {
+            throw new IllegalStateException("Account limit reached. A user cannot have more than 3 active or pending accounts.");
         }
 
         // 3. Create and populate the new Account entity

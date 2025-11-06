@@ -1,6 +1,7 @@
 package com.bank.system.repository;
 
 import com.bank.system.model.entity.Account;
+import com.bank.system.model.entity.User;
 import com.bank.system.model.enums.AccountStatus;
 
 import org.springframework.data.domain.Page;
@@ -45,4 +46,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     
     long countByStatus(AccountStatus status);
+    
+    long countByUserAndStatusNot(User user, AccountStatus status);
 }

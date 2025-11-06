@@ -1,6 +1,9 @@
 package com.bank.system.repository;
 
 import com.bank.system.model.entity.Transaction;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,4 +38,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         @Param("endDate") LocalDateTime endDate);
     
     List<Transaction> findFirst10ByFromAccountIdOrToAccountIdOrderByIdDesc(Long fromId, Long toId);
+    
+    @Query(value = "SELECT t FROM Transaction t WHERE t.fromAccount.id = :accountId OR t.toAccount.id = :accountId ORDER BY t.timestamp DESC",
+    	       countQuery = "SELECT count(t) FROM Transaction t WHERE t.fromAccount.id = :accountId OR t.toAccount.id = :accountId")
+    	Page<Transaction> findByAccountIdWithPagination(@Param("accountId") Long accountId, Pageable pageable);
 }

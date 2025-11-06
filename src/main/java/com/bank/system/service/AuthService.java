@@ -2,6 +2,7 @@ package com.bank.system.service;
 
 import com.bank.system.dto.AuthResponse;
 import com.bank.system.dto.LoginRequest;
+import com.bank.system.dto.ProfileDto;
 import com.bank.system.dto.RegisterRequest;
 import com.bank.system.model.entity.User;
 import com.bank.system.model.enums.Role;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -107,5 +109,19 @@ public class AuthService {
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
         return new AuthResponse(token, userDetails.getUsername(), role);
+    }
+    
+    public ProfileDto getMyProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                
+        ProfileDto profileDto = new ProfileDto();
+        profileDto.setUsername(user.getUsername());
+        profileDto.setFullName(user.getFullName());
+        profileDto.setEmail(user.getEmail());
+        profileDto.setRole(user.getRole());
+        
+        return profileDto;
     }
 }
