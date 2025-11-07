@@ -9,9 +9,8 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const snackBar = inject(MatSnackBar);
 
   if (authService.isLoggedIn() && authService.getUserRole() === 'ADMIN') {
-    return true; // User is logged in AND is an admin, allow access
+    return true;
   } else {
-    // Show an error message and redirect
     snackBar.open('Access Denied: You do not have permission to view this page.', 'Close', {
       duration: 5000,
       panelClass: ['error-snackbar']

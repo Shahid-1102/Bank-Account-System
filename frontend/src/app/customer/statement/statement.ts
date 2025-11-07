@@ -36,14 +36,12 @@ export class Statement implements OnInit {
   statementForm: FormGroup;
   accountNumber: string | null = null;
 
-  // Modern `inject` syntax
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
   private accountService = inject(AccountService);
   private snackBar = inject(MatSnackBar);
 
   constructor() {
-    // Set default dates to the last 30 days
     const today = new Date();
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(today.getDate() - 30);
@@ -58,7 +56,6 @@ export class Statement implements OnInit {
     this.accountNumber = this.route.snapshot.queryParamMap.get('accountNumber');
   }
 
-  // Helper to format date to YYYY-MM-DD
   private formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
   }
@@ -77,10 +74,8 @@ export class Statement implements OnInit {
 
     this.accountService.downloadStatement(requestBody).subscribe({
       next: (blob) => {
-        // Create a URL for the blob
         const url = window.URL.createObjectURL(blob);
         
-        // Create a temporary link to trigger the download
         const a = document.createElement('a');
         a.href = url;
         
@@ -88,7 +83,6 @@ export class Statement implements OnInit {
         const currentDate = this.formatDate(new Date());
         a.download = `statement-${username}-${this.accountNumber}-${currentDate}.pdf`;
         
-        // Trigger the download and clean up
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

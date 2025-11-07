@@ -2,46 +2,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; // THE FIX: Use min-height to allow the page to grow and scroll
-  padding: 2rem 1rem; // Add vertical padding
+  min-height: 100vh; 
+  padding: 2rem 1rem; 
 }
 
 .auth-card {
   width: 100%;
   max-width: 450px;
-  border: none; // Remove the default card border
+  border: none; 
 
   // --- THE GLASS EFFECT ---
-  background-color: rgba(30, 30, 30, 0.65); // Semi-transparent dark grey
+  background-color: rgba(30, 30, 30, 0.65); 
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); // For Safari
-  border: 1px solid rgba(255, 255, 255, 0.1); // Subtle edge highlight
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   border-radius: 1rem;
 }
 
-// Style the text and links to be readable on the dark, glassy card
 .card-body {
-  color: #f1f1f1; // Light text color
+  color: #f1f1f1;
 
   .text-muted {
-    color: rgba(255, 255, 255, 0.6) !important; // Override bootstrap's default
+    color: rgba(255, 255, 255, 0.6) !important;
   }
 
   a {
-    color: #ff4081; // A bright blue for links
+    color: #ff4081;
     text-decoration: none;
     &:hover {
       text-decoration: underline;
     }
   }
 
-  // Make form labels readable
   .form-floating > label {
     color: #aaa;
   }
 
-  // Make form inputs glassy too
   .form-control {
     background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);

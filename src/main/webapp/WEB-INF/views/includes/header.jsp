@@ -18,23 +18,19 @@
 </nav>
 
 <script>
-    // This script should be on every protected page.
     document.addEventListener('DOMContentLoaded', function() {
         const token = localStorage.getItem('jwtToken');
         const username = localStorage.getItem('username');
 
-        // Back Button Security: If no token exists, force logout.
         if (!token) {
             window.location.replace('/auth/login?reason=session_expired');
             return;
         }
 
-        // Populate header
         if (username) {
             document.getElementById('header-username').textContent = username;
         }
 
-        // Logout functionality
         const logoutButton = document.getElementById('logout-button');
         if (logoutButton) {
             logoutButton.addEventListener('click', function() {

@@ -1,4 +1,3 @@
-// Path: src/app/auth/register/register.ts
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,22 +5,18 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, 
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../services/auth';
 
-// ng-bootstrap and other imports
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxShinyTextComponent } from "@omnedia/ngx-shiny-text";
 import { MatButtonModule } from '@angular/material/button';
 
-// Custom Validator: Must be defined outside the class or as a static method.
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('password');
   const confirmPassword = control.get('confirmPassword');
 
-  // If controls haven't been initialized, don't validate yet
   if (!password || !confirmPassword) {
     return null;
   }
 
-  // If they don't match, return an error object
   return password.value === confirmPassword.value ? null : { passwordMismatch: true };
 }
 
@@ -60,7 +55,7 @@ export class Register {
         Validators.pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=]).*$/)
       ]],
       confirmPassword: ['', [Validators.required]]
-    }, { validators: passwordMatchValidator }); // Apply the custom validator to the entire form group
+    }, { validators: passwordMatchValidator });
   }
 
   onSubmit(): void {
@@ -68,12 +63,10 @@ export class Register {
     this.successMessage = null;
 
     if (this.registerForm.invalid) {
-      // Mark all fields as touched to show errors
       this.registerForm.markAllAsTouched();
       return;
     }
 
-    // Exclude 'confirmPassword' from the data sent to the backend
     const { confirmPassword, ...userData } = this.registerForm.value;
 
     this.authService.register(userData).subscribe({
@@ -81,10 +74,9 @@ export class Register {
         this.successMessage = 'Registration Successful! Redirecting to login...';
         setTimeout(() => {
           this.router.navigate(['/auth/login']);
-        }, 2000); // Wait 2 seconds before redirecting
+        }, 2000);
       },
       error: (err) => {
-        // The error object from HttpClient contains the text response in err.error
         this.errorMessage = `Registration Failed: ${err.error}`;
       }
     });

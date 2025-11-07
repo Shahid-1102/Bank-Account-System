@@ -20,7 +20,7 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('CUSTOMER')") // Only customers can create accounts for themselves
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<?> createAccount(@Valid @RequestBody AccountRequestDto accountRequestDto) {
         try {
             AccountDto newAccount = accountService.createAccount(accountRequestDto);
@@ -31,7 +31,7 @@ public class AccountController {
     }
 
     @GetMapping("/my-accounts")
-    @PreAuthorize("hasAuthority('CUSTOMER')") // Ensure only a logged-in customer can see their own accounts
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<List<AccountDto>> getMyAccounts() {
         List<AccountDto> accounts = accountService.getAccountsForCurrentUser();
         return ResponseEntity.ok(accounts);

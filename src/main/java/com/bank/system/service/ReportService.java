@@ -29,7 +29,6 @@ public class ReportService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    // We need Thymeleaf to process an HTML template into a string
     @Autowired
     private TemplateEngine templateEngine;
 
@@ -44,7 +43,6 @@ public class ReportService {
 
         List<Transaction> transactions = transactionRepository.findByAccountIdAndTimestampBetween(account.getId(), startDateTime, endDateTime);
 
-        // Use Thymeleaf to process an HTML template
         Context context = new Context();
         context.setVariable("account", account);
         context.setVariable("transactions", transactions);
@@ -52,7 +50,6 @@ public class ReportService {
         context.setVariable("endDate", endDate.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
         context.setVariable("generationDate", LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
 
-        // This will look for a template at "src/main/resources/templates/statement.html"
         String htmlContent = templateEngine.process("statement", context);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -1,4 +1,3 @@
-// Path: src/app/customer/dashboard/dashboard.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../services/account';
@@ -25,7 +24,7 @@ import { RouterLink } from "@angular/router";
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    NgbModalModule // <-- Add NgbModalModule for modals
+    NgbModalModule
     ,
     RouterLink
 ],
@@ -41,7 +40,6 @@ export class Dashboard implements OnInit {
   miniStatementData: any[] = [];
   selectedAccountForTx: string = '';
 
-  // Use the modern `inject` function for services
   private accountService = inject(AccountService);
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
@@ -49,9 +47,9 @@ export class Dashboard implements OnInit {
 
   constructor() {
     this.transactionForm = this.fb.group({
-      type: [''], // deposit, withdraw, or transfer
+      type: [''], 
       amount: [null, [Validators.required, Validators.min(100)]],
-      toAccountNumber: [''] // Only for transfers
+      toAccountNumber: ['']
     });
   }
 
@@ -77,7 +75,6 @@ export class Dashboard implements OnInit {
     this.selectedAccountForTx = accountNumber;
     this.transactionForm.reset({ type: type });
     
-    // Add or remove validator for the 'toAccountNumber' field
     const toAccountControl = this.transactionForm.get('toAccountNumber');
     if (type === 'transfer') {
       toAccountControl?.setValidators([Validators.required]);
@@ -136,7 +133,6 @@ export class Dashboard implements OnInit {
         this.miniStatementData = data;
       },
       error: (err) => {
-        // Handle error inside the modal
         this.miniStatementData = [{ error: err.error.message || 'Could not load statement.' }];
       }
     });

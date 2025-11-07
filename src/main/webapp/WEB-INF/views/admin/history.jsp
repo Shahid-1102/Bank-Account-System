@@ -42,7 +42,6 @@
             }
             transactions.forEach(tx => {
                 const amountClass = tx.transactionType === 'DEPOSIT' ? 'text-success' : 'text-danger';
-                // THE FIX: Replaced template literal with standard string concatenation
                 tableBody.innerHTML +=
                     '<tr>' +
                     '    <td>' + new Date(tx.timestamp).toLocaleString() + '</td>' +

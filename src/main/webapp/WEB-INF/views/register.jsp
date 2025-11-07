@@ -50,7 +50,6 @@
 </div>
 
 <script>
-    // JavaScript remains almost the same, but we no longer read the 'role'
     document.getElementById('registerForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const successMessageDiv = document.getElementById('successMessage');
@@ -63,7 +62,6 @@
             fullName: document.getElementById('fullName').value,
             email: document.getElementById('email').value,
             password: document.getElementById('password').value
-            // No 'role' is sent from here
         };
 
         fetch('/api/auth/register', {

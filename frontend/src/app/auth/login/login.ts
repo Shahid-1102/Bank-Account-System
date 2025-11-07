@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../services/auth';
 
-// ng-bootstrap and other imports
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxShinyTextComponent } from "@omnedia/ngx-shiny-text";
 import { MatButtonModule } from '@angular/material/button';

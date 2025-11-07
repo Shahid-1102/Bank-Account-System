@@ -17,13 +17,10 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
-
-    // This endpoint should be accessible by any authenticated user (e.g., customer, admin)
-    // No specific role check is needed here. The service layer handles account validation.
+    
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@Valid @RequestBody TransactionRequestDto request) {
         try {
-            // Note: A JWT is still required because of the /api/** rule in SecurityConfig
             TransactionDto transaction = transactionService.deposit(request.getAccountNumber(), request.getAmount());
             return ResponseEntity.ok(transaction);
         } catch (Exception e) {
@@ -31,7 +28,6 @@ public class TransactionController {
         }
     }
 
-    // ADDED: Annotation moved to the method level
     @PostMapping("/withdraw")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<?> withdraw(@Valid @RequestBody TransactionRequestDto request) {
@@ -43,7 +39,6 @@ public class TransactionController {
         }
     }
 
-    // ADDED: Annotation moved to the method level
     @PostMapping("/transfer")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<?> transfer(@Valid @RequestBody TransferRequestDto request) {
@@ -55,7 +50,6 @@ public class TransactionController {
         }
     }
 
-    // ADDED: Annotation moved to the method level
     @GetMapping("/history/{accountNumber}")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<?> getHistory(@PathVariable String accountNumber) {
@@ -70,7 +64,6 @@ public class TransactionController {
     @GetMapping("/mini-statement/{accountNumber}")
     public ResponseEntity<?> getMiniStatement(@PathVariable String accountNumber) {
         try {
-            // Note: Service method needs to be created
             List<TransactionDto> history = transactionService.getMiniStatement(accountNumber);
             return ResponseEntity.ok(history);
         } catch (Exception e) {

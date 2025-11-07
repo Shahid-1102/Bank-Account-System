@@ -1,4 +1,3 @@
-// Path: src/app/layouts/admin/admin.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';

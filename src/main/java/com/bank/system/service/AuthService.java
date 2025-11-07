@@ -85,9 +85,9 @@ public class AuthService {
         user.setFullName(registerRequest.getFullName());
 //        user.setRole(registerRequest.getRole());
         if (registerRequest.getRole() == null) {
-            user.setRole(Role.CUSTOMER); // Default to CUSTOMER for public registration
+            user.setRole(Role.CUSTOMER);
         } else {
-            user.setRole(registerRequest.getRole()); // Use role for admin registration
+            user.setRole(registerRequest.getRole());
         }
         user.setActive(true);
 

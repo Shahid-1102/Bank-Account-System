@@ -1,4 +1,3 @@
-// Path: src/app/shared/dialogs/reason/reason.ts
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
-// This interface defines the data we can pass TO the dialog
 export interface ReasonDialogData {
   title: string;
   message: string;
@@ -21,7 +19,7 @@ export interface ReasonDialogData {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule, // Use FormsModule for simple data binding
+    FormsModule, 
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
@@ -38,11 +36,10 @@ export class Reason {
   ) {}
 
   onCancel(): void {
-    this.dialogRef.close(); // Close the dialog without sending data
+    this.dialogRef.close();
   }
 
   onConfirm(): void {
-    // Close the dialog and send the reason text back
     this.dialogRef.close(this.reasonText); 
   }
 }

@@ -34,13 +34,12 @@ public class AdminService {
 	private TransactionService transactionService;
 	@Autowired
 	private TransactionRepository transactionRepository;
+	@Autowired
+    private EmailService emailService;
 
-	// We inject AccountService to reuse its public convertToDto method.
-	// This is a common and acceptable pattern.
 	@Autowired
 	private AccountService accountService;
 
-	// Method 1: Get Pending Accounts
 //    public List<AccountDto> getPendingAccounts() {
 //        return accountRepository.findByStatus(AccountStatus.PENDING)
 //                .stream()
@@ -52,24 +51,25 @@ public class AdminService {
 		Page<Account> accountPage = accountRepository.findByStatus(AccountStatus.PENDING, pageable);
 		return accountPage.map(accountService::convertToDto);
 	}
-
-	// Method 2: Approve an Account
+	
 	@Transactional
-	public AccountDto approveAccount(Long accountId) {
-		Account account = findProcessableAccount(accountId);
+    public AccountDto approveAccount(Long accountId) {
+        Account account = findProcessableAccount(accountId);
+        String adminUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        account.setStatus(AccountStatus.APPROVED);
+        account.setApprovedAt(LocalDateTime.now());
+        account.setApprovedBy(adminUsername);
+        account.setAdminRemarks("Account approved.");
 
-		String adminUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        Account updatedAccount = accountRepository.save(account);
+        User userToEmail = updatedAccount.getUser();
+//        emailService.sendAccountApprovalEmail(updatedAccount.getUser(), updatedAccount);
+        emailService.sendAccountApprovalEmail(userToEmail, updatedAccount);
 
-		account.setStatus(AccountStatus.APPROVED);
-		account.setApprovedAt(LocalDateTime.now());
-		account.setApprovedBy(adminUsername);
-		account.setAdminRemarks("Account approved.");
+        return accountService.convertToDto(updatedAccount);
+    }
 
-		Account updatedAccount = accountRepository.save(account);
-		return accountService.convertToDto(updatedAccount);
-	}
-
-	// Method 3: Reject an Account
 	@Transactional
 	public AccountDto rejectAccount(Long accountId, String reason) {
 		Account account = findProcessableAccount(accountId);
@@ -77,14 +77,13 @@ public class AdminService {
 		String adminUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		account.setStatus(AccountStatus.REJECTED);
-		account.setApprovedBy(adminUsername); // The admin who processed it
+		account.setApprovedBy(adminUsername);
 		account.setAdminRemarks(reason);
 
 		Account updatedAccount = accountRepository.save(account);
 		return accountService.convertToDto(updatedAccount);
 	}
 
-	// Method 4: Get Dashboard Statistics
 	public AdminDashboardStatsDto getDashboardStats() {
 		long total = accountRepository.count();
 		long pending = accountRepository.countByStatus(AccountStatus.PENDING);
@@ -93,7 +92,6 @@ public class AdminService {
 		return new AdminDashboardStatsDto(total, pending, approved, rejected);
 	}
 
-	// A private helper method to find and validate an account before processing
 	private Account findProcessableAccount(Long accountId) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new IllegalArgumentException("Account not found with ID: " + accountId));
@@ -122,7 +120,6 @@ public class AdminService {
         } else {
             userPage = userRepository.findByRoleAndUsernameContainingIgnoreCase(Role.CUSTOMER, query, pageable);
         }
-        // Use the .map() function to convert each User to a UserDto
         return userPage.map(this::convertUserToDto);
     }
 	
@@ -158,4 +155,6 @@ public class AdminService {
 	    
 	    return transactionPage.map(transactionService::convertToDto);
 	}
+	
+	
 }

@@ -68,7 +68,6 @@ body {
 }
 
 /* --- GLASSMORPHISM STYLE --- */
-// This is a global utility class we can apply to any element
 .glass-card {
   background-color: rgba(35, 35, 35, 0.65) !important;
   backdrop-filter: blur(12px);
@@ -78,17 +77,14 @@ body {
   border-radius: 1rem;
 }
 
-// Force Material cards to be transparent so our glass style shows through
 mat-card.glass-card {
   background: transparent;
 }
 
-// Style for ng-bootstrap modals to make them glassy
 .modal-content {
   @extend .glass-card;
 }
 
-// Custom snackbar style
 .error-snackbar {
   background-color: #d32f2f;
   color: white;

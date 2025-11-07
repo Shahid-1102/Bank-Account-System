@@ -11,8 +11,8 @@ public class TransactionDto {
     private Long id;
     private TransactionType transactionType;
     private BigDecimal amount;
-    private String fromAccountNumber; // Can be null
-    private String toAccountNumber;   // Can be null
+    private String fromAccountNumber;
+    private String toAccountNumber;
     private LocalDateTime timestamp;
     private TransactionStatus status;
     private String description;

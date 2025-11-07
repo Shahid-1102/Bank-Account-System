@@ -1,4 +1,3 @@
-// Path: src/app/customer/create-account/create-account.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -33,7 +32,6 @@ import { MatIconModule } from '@angular/material/icon';
 export class CreateAccount {
   createAccountForm: FormGroup;
 
-  // Modern `inject` syntax
   private fb = inject(FormBuilder);
   private accountService = inject(AccountService);
   private router = inject(Router);

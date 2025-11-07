@@ -30,24 +30,20 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    // This filter chain is for simple, unsecured web pages (like login/register)
     @Bean
     @Order(1)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            // CORRECTED: Use the securityMatcher that accepts multiple String patterns.
             .securityMatcher("/auth/**", "/")
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-            .csrf(csrf -> csrf.disable()); // Also disable CSRF for these simple GET/POST forms
+            .csrf(csrf -> csrf.disable());
         return http.build();
     }
 
-    // This filter chain is for our secure, stateless REST API
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            // CORRECTED: Use the simpler String pattern version here as well.
             .securityMatcher("/api/**")
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth

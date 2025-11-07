@@ -143,23 +143,20 @@
 }
 
 .header-toolbar {
-  // Make the header transparent so the glass effect (applied in HTML) is visible
   background: transparent !important;
   position: sticky;
   top: 0;
   z-index: 10;
-  border-radius: 0; // Headers shouldn't have rounded corners
+  border-radius: 0; 
 }
 
 .sidenav-container {
   flex: 1;
-  // Make the container itself transparent
   background: transparent;
 }
 
 .sidenav {
   width: 240px;
-  // Make the sidebar transparent so the glass effect (applied in HTML) is visible
   background: transparent !important;
   border-radius: 0;
   border-right: 1px solid rgba(255, 255, 255, 0.1) !important;

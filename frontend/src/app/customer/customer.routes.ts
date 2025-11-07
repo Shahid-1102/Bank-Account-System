@@ -8,7 +8,7 @@ import { Profile } from './profile/profile';
 export const CUSTOMER_ROUTES: Routes = [
   {
     path: '',
-    component: Customer, // The main layout component is the parent
+    component: Customer,
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'statement', component: Statement },

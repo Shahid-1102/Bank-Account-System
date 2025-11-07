@@ -127,7 +127,6 @@ public class AdminController {
     @PostMapping("/create-admin")
     public ResponseEntity<String> createAdmin(@Valid @RequestBody RegisterRequest registerRequest) {
         try {
-            // Explicitly set the role to ADMIN to prevent any mistakes
             registerRequest.setRole(Role.ADMIN);
             authService.register(registerRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body("Admin user registered successfully!");

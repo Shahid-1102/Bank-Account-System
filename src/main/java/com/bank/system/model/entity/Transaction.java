@@ -33,7 +33,6 @@ public class Transaction {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    // Source account (can be null for DEPOSIT)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_account")
     private Account fromAccount;
@@ -56,5 +55,5 @@ public class Transaction {
     
     @NotNull
     @Column(name = "balance_after")
-    private BigDecimal balanceAfter; // Balance of the affected account after the transaction
+    private BigDecimal balanceAfter;
 }

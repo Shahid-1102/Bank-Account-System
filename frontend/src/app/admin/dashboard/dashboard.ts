@@ -1,4 +1,3 @@
-// Path: src/app/admin/dashboard/dashboard.ts
 import { Component, OnInit, ViewChild, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminService, AdminStats, PendingAccount, Customer } from '../services/admin';
@@ -6,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
-// --- Material Imports for a Rich UI ---
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
@@ -56,7 +54,6 @@ export class Dashboard implements OnInit, AfterViewInit {
   }
 
   
-  // Data properties
   stats: AdminStats | null = null;
   isLoadingStats = true;
 
@@ -66,7 +63,6 @@ export class Dashboard implements OnInit, AfterViewInit {
   pendingTotalElements = 0;
   isLoadingPending = true;
 
-  // Customer Management Table
   customerDisplayedColumns: string[] = ['id', 'fullName', 'username', 'email', 'actions'];
   customerDataSource: Customer[] = [];
   customerTotalElements = 0;
@@ -88,11 +84,9 @@ export class Dashboard implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Load initial data once paginators are available
     this.loadPendingAccounts();
     this.loadCustomers();
     
-    // Subscribe to paginator events
     this.pendingPaginator.page.pipe(tap(() => this.loadPendingAccounts())).subscribe();
     this.customerPaginator.page.pipe(tap(() => this.loadCustomers())).subscribe();
   }
@@ -156,7 +150,6 @@ export class Dashboard implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(reason => {
-      // The 'reason' will be the text from the dialog, or undefined if the user cancelled
       if (reason) {
         this.adminService.rejectAccount(accountId, reason).subscribe(() => {
           this.snackBar.open('Account rejected successfully!', 'Close', { duration: 3000 });
@@ -183,7 +176,6 @@ export class Dashboard implements OnInit, AfterViewInit {
     }
 
     this.adminRegMessage = null;
-    // const adminData = this.adminRegisterForm.value;
     const adminData = { ...this.adminRegisterForm.value, role: 'ADMIN' };
 
     this.authService.register(adminData).subscribe({

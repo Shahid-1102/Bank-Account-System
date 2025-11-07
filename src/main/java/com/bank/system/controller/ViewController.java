@@ -8,7 +8,7 @@ public class ViewController {
 
     @GetMapping("/")
     public String home() {
-        return "login"; // Default to login page
+        return "login";
     }
 
     @GetMapping("/auth/login")

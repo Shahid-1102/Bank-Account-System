@@ -59,7 +59,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // These functions can be defined globally
     function processAccount(accountId, action) {
         const token = localStorage.getItem('jwtToken');
         let url = '/api/admin/accounts/' + action + '/' + accountId;
@@ -98,7 +97,6 @@
         const tableBody = document.getElementById('pending-accounts-table');
         tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Loading...</td></tr>';
         
-        // CORRECTED URL
         const url = '/api/admin/accounts/pending?page=' + page + '&size=10';
         fetch(url, { headers: { 'Authorization': 'Bearer ' + token }})
         .then(res => res.json()).then(pageData => {
@@ -129,7 +127,6 @@
         const customersTable = document.getElementById('customers-table');
         customersTable.innerHTML = '<tr><td colspan="5" class="text-center">Loading...</td></tr>';
 
-        // CORRECTED URL
         const url = '/api/admin/customers?page=' + page + '&size=10&query=' + query;
         fetch(url, { headers: { 'Authorization': 'Bearer ' + token }})
         .then(res => res.json()).then(pageData => {
@@ -175,7 +172,6 @@
 
         const pageInfo = document.createElement('span');
         pageInfo.className = 'align-self-center';
-        // CORRECTED TEXT
         pageInfo.innerText = 'Page ' + (currentPage + 1) + ' of ' + pageData.totalPages;
 
         container.appendChild(prevButton);

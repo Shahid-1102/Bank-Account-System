@@ -48,16 +48,13 @@ public class TransactionService {
     public TransactionDto withdraw(String accountNumber, BigDecimal amount) {
         Account account = findAndValidateAccount(accountNumber);
         
-        // Security check: ensure the account belongs to the logged-in user
         validateAccountOwnership(account);
 
-        // Business rule: Check for sufficient funds
         BigDecimal newBalance = account.getBalance().subtract(amount);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("Insufficient funds for withdrawal.");
         }
 
-        // Business rule: Maintain minimum balance for savings accounts
         if (account.getAccountType() == AccountType.SAVINGS && newBalance.compareTo(MINIMUM_SAVINGS_BALANCE) < 0) {
             throw new IllegalStateException("Withdrawal would bring balance below the minimum of " + MINIMUM_SAVINGS_BALANCE);
         }
@@ -79,10 +76,8 @@ public class TransactionService {
         Account toAccount = findAndValidateAccount(transferRequest.getToAccountNumber());
         BigDecimal amount = transferRequest.getAmount();
 
-        // Security check: ensure the source account belongs to the logged-in user
         validateAccountOwnership(fromAccount);
 
-        // Business rule: Check for sufficient funds in source account
         BigDecimal newFromBalance = fromAccount.getBalance().subtract(amount);
         if (newFromBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("Insufficient funds for transfer.");
@@ -91,11 +86,9 @@ public class TransactionService {
             throw new IllegalStateException("Transfer would bring source balance below the minimum of " + MINIMUM_SAVINGS_BALANCE);
         }
 
-        // Update balances
         fromAccount.setBalance(newFromBalance);
         toAccount.setBalance(toAccount.getBalance().add(amount));
 
-        // Save accounts
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
         
@@ -116,7 +109,6 @@ public class TransactionService {
                 .collect(Collectors.toList());
     }
 
-    // --- Helper Methods ---
     
     private Account findAndValidateAccount(String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
@@ -142,7 +134,6 @@ public class TransactionService {
         transaction.setToAccount(to);
         transaction.setStatus(TransactionStatus.SUCCESS);
         transaction.setDescription(description);
-        // Determine which account's balance to record
         if (type == TransactionType.DEPOSIT) {
             transaction.setBalanceAfter(to.getBalance());
         } else {

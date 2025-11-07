@@ -10,8 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping; // CHANGED
-import org.springframework.web.bind.annotation.RequestBody; // CHANGED
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +30,6 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    // CHANGED TO @PostMapping AND @RequestBody
     @PostMapping("/download-statement")
     public ResponseEntity<?> downloadStatement(@RequestBody StatementRequestDto request) {
         

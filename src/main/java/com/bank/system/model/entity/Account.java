@@ -58,8 +58,8 @@ public class Account {
     private LocalDateTime approvedAt;
     
     @Column(name = "approved_by")
-    private String approvedBy; // Stores the username of the admin who approved
+    private String approvedBy;
 
     @Column(name = "admin_remarks")
-    private String adminRemarks; // Stores the reason for rejection or other notes
+    private String adminRemarks;
 }

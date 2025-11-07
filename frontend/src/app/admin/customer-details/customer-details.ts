@@ -1,11 +1,9 @@
-// Path: src/app/admin/customer-details/customer-details.ts
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AdminService } from '../services/admin';
 import { Account } from '../../customer/services/account.model';
 
-// --- Material & Ngb Imports ---
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -54,10 +52,8 @@ export class CustomerDetails implements OnInit {
   openHistoryModal(modalContent: any, accountNumber: string): void {
     this.selectedAccountForHistory = accountNumber;
     this.modalService.open(modalContent, { centered: true, size: 'xl' }).result.then(() => {
-      // Reset paginator when modal is closed
       this.historyPaginator.pageIndex = 0;
     }, () => {});
-    // Timeout to allow the paginator to initialize in the DOM
     setTimeout(() => {
       this.loadHistory();
       this.historyPaginator.page.subscribe(() => this.loadHistory());

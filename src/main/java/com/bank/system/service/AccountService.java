@@ -28,12 +28,10 @@ public class AccountService {
 
     @Transactional
     public AccountDto createAccount(AccountRequestDto accountRequestDto) {
-        // 1. Get the currently logged-in user
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        // 2. Apply business rule: Max 3 accounts per user
 //        if (accountRepository.countByUserId(currentUser.getId()) >= 3) {
 //            throw new IllegalStateException("User cannot have more than 3 accounts.");
 //        }
@@ -41,18 +39,15 @@ public class AccountService {
             throw new IllegalStateException("Account limit reached. A user cannot have more than 3 active or pending accounts.");
         }
 
-        // 3. Create and populate the new Account entity
         Account newAccount = new Account();
         newAccount.setUser(currentUser);
         newAccount.setAccountType(accountRequestDto.getAccountType());
         newAccount.setBalance(accountRequestDto.getInitialDeposit());
-        newAccount.setStatus(AccountStatus.PENDING); // Accounts require admin approval
+        newAccount.setStatus(AccountStatus.PENDING);
         newAccount.setAccountNumber(generateUniqueAccountNumber());
 
-        // 4. Save the account to the database
         Account savedAccount = accountRepository.save(newAccount);
 
-        // 5. Convert to DTO and return
         return convertToDto(savedAccount);
     }
 
@@ -65,18 +60,15 @@ public class AccountService {
         return accounts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    // A simple method to generate a unique account number
     private String generateUniqueAccountNumber() {
         Random random = new Random();
         String accountNumber;
         do {
-            // Generate a 10-digit number
             accountNumber = String.format("%010d", random.nextLong(1_000_000_000L, 10_000_000_000L));
         } while (accountRepository.findByAccountNumber(accountNumber).isPresent());
         return accountNumber;
     }
 
-    // Helper method to map an Entity to a DTO
     public AccountDto convertToDto(Account account) {
         AccountDto dto = new AccountDto();
         dto.setId(account.getId());
@@ -92,7 +84,6 @@ public class AccountService {
     }
     
     public List<AccountDto> getAccountsByUserId(Long userId) {
-        // No ownership validation here since it's for an admin
         List<Account> accounts = accountRepository.findByUserId(userId);
         return accounts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
