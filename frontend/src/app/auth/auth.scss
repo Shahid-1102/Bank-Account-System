@@ -1,6 +1,3 @@
-/* Path: src/app/auth/auth.scss */
-
-// This targets the main container for both login and register pages
 .auth-container {
   display: flex;
   align-items: center;
@@ -32,7 +29,7 @@
   }
 
   a {
-    color: #64b5f6; // A bright blue for links
+    color: #ff4081; // A bright blue for links
     text-decoration: none;
     &:hover {
       text-decoration: underline;
@@ -52,9 +49,18 @@
 
     &:focus {
       background-color: rgba(0, 0, 0, 0.3);
-      border-color: #64b5f6;
+      border-color: #ff4081;
       box-shadow: none;
       color: #fff;
     }
+  }
+}
+
+
+.auth-card {
+  .mat-mdc-unelevated-button.mat-accent,
+  .mat-mdc-flat-button.mat-accent {
+    background-color: #ff4081;
+    color: #ffffff;
   }
 }

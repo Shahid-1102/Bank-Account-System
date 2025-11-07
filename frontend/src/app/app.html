@@ -1,3 +1,16 @@
-<om-meteors>
+<!-- <om-meteors>
   <router-outlet></router-outlet>
-</om-meteors>
+</om-meteors> -->
+
+
+<!-- Path: src/app/app.html -->
+
+<!-- 1. The Meteors component is now a background element. -->
+<!-- It is fixed to the viewport and sits behind everything else. -->
+<om-meteors class="background-meteors"></om-meteors>
+
+<!-- 2. The router-outlet is now the main content container. -->
+<!-- This element will scroll if its content is too tall. -->
+<div class="content-container">
+  <router-outlet></router-outlet>
+</div>

@@ -30,9 +30,11 @@ export class Customer {
   private authService = inject(Auth);
 
   public username: string | null = null;
+  public fullName: string | null = null;;
 
   constructor() {
     this.username = localStorage.getItem('username');
+    this.fullName = localStorage.getItem('fullName');
   }
 
   logout(): void {

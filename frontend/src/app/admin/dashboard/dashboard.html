@@ -1,68 +1,224 @@
 <!-- Path: src/app/admin/dashboard/dashboard.html -->
 <div class="container-fluid">
-  <h1 class="my-4">Manager Dashboard</h1>
+  <div class="d-flex justify-content-between align-items-center my-4">
+    <h1 class="my-4">Manager Dashboard</h1>
+    <button mat-flat-button color="primary" (click)="openAdminRegisterModal(adminRegModal)">
+      <mat-icon>person_add</mat-icon>
+      Register New Admin
+    </button>
+  </div>
 
   <!-- Stats Cards -->
-  <div *ngIf="isLoadingStats; else statsCards" class="text-center"><mat-spinner [diameter]="50"></mat-spinner></div>
+  <div *ngIf="isLoadingStats; else statsCards" class="text-center">
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
   <ng-template #statsCards>
     <div class="row" *ngIf="stats">
-      <div class="col-xl-3 col-md-6 mb-4"><mat-card><mat-card-header><mat-card-title>{{ stats.totalAccounts }}</mat-card-title><mat-card-subtitle>Total Accounts</mat-card-subtitle></mat-card-header></mat-card></div>
-      <div class="col-xl-3 col-md-6 mb-4"><mat-card><mat-card-header><mat-card-title class="text-warning">{{ stats.pendingAccounts }}</mat-card-title><mat-card-subtitle>Pending</mat-card-subtitle></mat-card-header></mat-card></div>
-      <div class="col-xl-3 col-md-6 mb-4"><mat-card><mat-card-header><mat-card-title class="text-success">{{ stats.approvedAccounts }}</mat-card-title><mat-card-subtitle>Approved</mat-card-subtitle></mat-card-header></mat-card></div>
-      <div class="col-xl-3 col-md-6 mb-4"><mat-card><mat-card-header><mat-card-title class="text-danger">{{ stats.rejectedAccounts }}</mat-card-title><mat-card-subtitle>Rejected</mat-card-subtitle></mat-card-header></mat-card></div>
+      <div class="col-xl-3 col-md-6 mb-4">
+        <mat-card class="glass-card"
+          ><mat-card-header
+            ><mat-card-title>{{ stats.totalAccounts }}</mat-card-title
+            ><mat-card-subtitle>Total Accounts</mat-card-subtitle></mat-card-header
+          ></mat-card
+        >
+      </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+        <mat-card class="glass-card"
+          ><mat-card-header
+            ><mat-card-title class="text-warning">{{ stats.pendingAccounts }}</mat-card-title
+            ><mat-card-subtitle>Pending</mat-card-subtitle></mat-card-header
+          ></mat-card
+        >
+      </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+        <mat-card class="glass-card"
+          ><mat-card-header
+            ><mat-card-title class="text-success">{{ stats.approvedAccounts }}</mat-card-title
+            ><mat-card-subtitle>Approved</mat-card-subtitle></mat-card-header
+          ></mat-card
+        >
+      </div>
+      <div class="col-xl-3 col-md-6 mb-4">
+        <mat-card class="glass-card"
+          ><mat-card-header
+            ><mat-card-title class="text-danger">{{ stats.rejectedAccounts }}</mat-card-title
+            ><mat-card-subtitle>Rejected</mat-card-subtitle></mat-card-header
+          ></mat-card
+        >
+      </div>
     </div>
   </ng-template>
 
   <!-- Pending Accounts Table -->
-  <mat-card class="mt-4">
+  <mat-card class="mt-4" class="glass-card">
     <mat-card-header><mat-card-title>Pending Account Requests</mat-card-title></mat-card-header>
     <mat-card-content>
       <div *ngIf="isLoadingPending" class="loading-shade"><mat-spinner></mat-spinner></div>
       <table mat-table [dataSource]="pendingDataSource">
         <!-- Columns -->
-        <ng-container matColumnDef="customerName"><th mat-header-cell *matHeaderCellDef> Customer </th><td mat-cell *matCellDef="let el"> {{el.userFullName}} </td></ng-container>
-        <ng-container matColumnDef="accountType"><th mat-header-cell *matHeaderCellDef> Type </th><td mat-cell *matCellDef="let el"> {{el.accountType}} </td></ng-container>
-        <ng-container matColumnDef="deposit"><th mat-header-cell *matHeaderCellDef> Deposit </th><td mat-cell *matCellDef="let el"> {{el.balance | currency:'INR'}} </td></ng-container>
-        <ng-container matColumnDef="appliedOn"><th mat-header-cell *matHeaderCellDef> Applied On </th><td mat-cell *matCellDef="let el"> {{el.createdAt | date:'short'}} </td></ng-container>
+        <ng-container matColumnDef="customerName"
+          ><th mat-header-cell *matHeaderCellDef>Customer</th>
+          <td mat-cell *matCellDef="let el">{{ el.userFullName }}</td></ng-container
+        >
+        <ng-container matColumnDef="accountType"
+          ><th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let el">{{ el.accountType }}</td></ng-container
+        >
+        <ng-container matColumnDef="deposit"
+          ><th mat-header-cell *matHeaderCellDef>Deposit</th>
+          <td mat-cell *matCellDef="let el">{{ el.balance | currency : 'INR' }}</td></ng-container
+        >
+        <ng-container matColumnDef="appliedOn"
+          ><th mat-header-cell *matHeaderCellDef>Applied On</th>
+          <td mat-cell *matCellDef="let el">{{ el.createdAt | date : 'short' }}</td></ng-container
+        >
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let el">
-            <button mat-icon-button color="primary" (click)="approve(el.id)" title="Approve Account"><mat-icon>check_circle</mat-icon></button>
-            <button mat-icon-button color="warn" (click)="reject(el.id)" title="Reject Account"><mat-icon>cancel</mat-icon></button>
+          <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+          <td mat-cell *matCellDef="let el" class="actions-cell">
+            <button
+              mat-icon-button
+              color=""
+              (click)="approve(el.id)"
+              title="Approve Account"
+              class="approve-btn"
+            >
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color=""
+              (click)="reject(el.id)"
+              title="Reject Account"
+              class="reject-btn"
+            >
+              <mat-icon>cancel</mat-icon>
+            </button>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="pendingDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: pendingDisplayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: pendingDisplayedColumns"></tr>
       </table>
-      <mat-paginator #pendingPaginator [pageSize]="5" (page)="loadPendingAccounts()" showFirstLastButtons></mat-paginator>
+      <mat-paginator
+        #pendingPaginator
+        [pageSize]="5"
+        (page)="loadPendingAccounts()"
+        showFirstLastButtons
+      ></mat-paginator>
     </mat-card-content>
   </mat-card>
 
   <!-- Customer Management Table -->
-  <mat-card class="mt-5">
+  <mat-card class="mt-5" class="glass-card">
     <mat-card-header><mat-card-title>Customer Management</mat-card-title></mat-card-header>
     <mat-card-content>
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Search Customers by Username</mat-label>
-        <input matInput (keyup)="onSearch($event)" placeholder="Enter username...">
+        <input matInput (keyup)="onSearch($event)" placeholder="Enter username..." />
       </mat-form-field>
       <div *ngIf="isLoadingCustomers" class="loading-shade"><mat-spinner></mat-spinner></div>
       <table mat-table [dataSource]="customerDataSource">
         <!-- Columns -->
-        <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef> ID </th><td mat-cell *matCellDef="let el"> {{el.id}} </td></ng-container>
-        <ng-container matColumnDef="fullName"><th mat-header-cell *matHeaderCellDef> Full Name </th><td mat-cell *matCellDef="let el"> {{el.fullName}} </td></ng-container>
-        <ng-container matColumnDef="username"><th mat-header-cell *matHeaderCellDef> Username </th><td mat-cell *matCellDef="let el"> {{el.username}} </td></ng-container>
-        <ng-container matColumnDef="email"><th mat-header-cell *matHeaderCellDef> Email </th><td mat-cell *matCellDef="let el"> {{el.email}} </td></ng-container>
+        <ng-container matColumnDef="id"
+          ><th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let el">{{ el.id }}</td></ng-container
+        >
+        <ng-container matColumnDef="fullName"
+          ><th mat-header-cell *matHeaderCellDef>Full Name</th>
+          <td mat-cell *matCellDef="let el">{{ el.fullName }}</td></ng-container
+        >
+        <ng-container matColumnDef="username"
+          ><th mat-header-cell *matHeaderCellDef>Username</th>
+          <td mat-cell *matCellDef="let el">{{ el.username }}</td></ng-container
+        >
+        <ng-container matColumnDef="email"
+          ><th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let el">{{ el.email }}</td></ng-container
+        >
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let user">
-           <a mat-button color="primary" [routerLink]="['/admin/customers', user.id]">View Accounts</a>
+            <a mat-button color="primary" [routerLink]="['/admin/customers', user.id]"
+              >View Accounts</a
+            >
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="customerDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: customerDisplayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: customerDisplayedColumns"></tr>
       </table>
-      <mat-paginator #customerPaginator [pageSize]="10" (page)="loadCustomers()" showFirstLastButtons></mat-paginator>
+      <mat-paginator
+        #customerPaginator
+        [pageSize]="10"
+        (page)="loadCustomers()"
+        showFirstLastButtons
+      ></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>
+
+<ng-template #adminRegModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Register New Admin User</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div
+      *ngIf="adminRegMessage"
+      [ngClass]="adminRegSuccess ? 'alert alert-success' : 'alert alert-danger'"
+    >
+      {{ adminRegMessage }}
+    </div>
+    <form [formGroup]="adminRegisterForm" (ngSubmit)="onAdminRegisterSubmit()">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="admin-username"
+          placeholder="Username"
+          formControlName="username"
+        />
+        <label for="admin-username">Username</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="admin-fullName"
+          placeholder="Full Name"
+          formControlName="fullName"
+        />
+        <label for="admin-fullName">Full Name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          class="form-control"
+          id="admin-email"
+          placeholder="Email"
+          formControlName="email"
+        />
+        <label for="admin-email">Email</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          class="form-control"
+          id="admin-password"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <label for="admin-password">Password</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onAdminRegisterSubmit()"
+      [disabled]="adminRegisterForm.invalid"
+    >
+      Register Admin
+    </button>
+  </div>
+</ng-template>

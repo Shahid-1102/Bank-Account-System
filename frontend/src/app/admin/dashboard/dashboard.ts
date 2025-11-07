@@ -18,6 +18,9 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from "@angular/router";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Reason, ReasonDialogData } from '../../shared/dialogs/reason/reason';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { Auth } from '../../auth/services/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +28,7 @@ import { Reason, ReasonDialogData } from '../../shared/dialogs/reason/reason';
   imports: [
     CommonModule, MatCardModule, MatProgressSpinnerModule, MatTableModule,
     MatPaginatorModule, MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    RouterLink, MatDialogModule 
+    RouterLink, MatDialogModule, ReactiveFormsModule, NgbModalModule
 ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
@@ -35,6 +38,23 @@ export class Dashboard implements OnInit, AfterViewInit {
   private adminService = inject(AdminService);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
+  private fb = inject(FormBuilder);
+  private modalService = inject(NgbModal);
+  private authService = inject(Auth);
+
+  adminRegisterForm: FormGroup;
+  adminRegMessage: string | null = null;
+  adminRegSuccess = false;
+
+  constructor() {
+    this.adminRegisterForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      fullName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
   
   // Data properties
   stats: AdminStats | null = null;
@@ -149,5 +169,33 @@ export class Dashboard implements OnInit, AfterViewInit {
   refreshData(): void {
     this.loadStats();
     this.loadPendingAccounts();
+  }
+
+  openAdminRegisterModal(modalContent: any): void {
+    this.adminRegisterForm.reset();
+    this.adminRegMessage = null;
+    this.modalService.open(modalContent, { centered: true });
+  }
+
+  onAdminRegisterSubmit(): void {
+    if (this.adminRegisterForm.invalid) {
+      return;
+    }
+
+    this.adminRegMessage = null;
+    // const adminData = this.adminRegisterForm.value;
+    const adminData = { ...this.adminRegisterForm.value, role: 'ADMIN' };
+
+    this.authService.register(adminData).subscribe({
+      next: (response) => {
+        this.adminRegSuccess = true;
+        this.adminRegMessage = response;
+        this.adminRegisterForm.reset();
+      },
+      error: (err) => {
+        this.adminRegSuccess = false;
+        this.adminRegMessage = err.error || 'Failed to register admin.';
+      }
+    });
   }
 }

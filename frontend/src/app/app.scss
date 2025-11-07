@@ -1,0 +1,28 @@
+/* Path: src/app/app.scss */
+
+// Make the host element a container
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+// Style the background meteors
+.background-meteors {
+  position: fixed; // Fix it to the viewport
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; // Place it behind the content
+}
+
+// Style the scrollable content container
+.content-container {
+  position: relative; // Ensure it's on top of the background
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh; // Ensure it can grow
+  overflow-y: auto; // Add a scrollbar if content overflows
+}

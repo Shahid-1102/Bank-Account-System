@@ -61,6 +61,7 @@
 //       font-size: 0.9rem;
 //       font-weight: 500;
 //       margin-top: 0.3rem;
+      
 //     }
 
 //     .badge {
@@ -82,6 +83,7 @@
 
 //     h2.display-6 {
 //       color: #0f172a;
+      
 //     }
 //   }
 
@@ -97,79 +99,82 @@
 //   }
 // }
 
-// /* Spinner + Loading Message */
-// mat-spinner {
-//   margin-right: 1rem;
-// }
+/* Spinner + Loading Message */
+mat-spinner {
+  margin-right: 1rem;
+}
 
-// /* Error Alert */
-// .alert-danger {
-//   border-radius: 6px;
-//   font-weight: 500;
-// }
+/* Error Alert */
+.alert-danger {
+  border-radius: 6px;
+  font-weight: 500;
+}
 
-// /* Modals (Bootstrap-based) */
-// .modal-header {
-//   background-color: #1976d2;
-//   color: white;
-//   border-bottom: none;
+/* Modals (Bootstrap-based) */
+.modal-header {
+//   background-color: #ff4081;
+  color: white;
+  border-bottom: none;
 
-//   .modal-title {
-//     font-weight: 600;
-//   }
+  .modal-title {
+    font-weight: 600;
+  }
 
-//   .btn-close {
-//     filter: invert(1);
-//     opacity: 0.8;
-//     transition: opacity 0.2s ease-in-out;
+  .btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
 
-//     &:hover {
-//       opacity: 1;
-//     }
-//   }
-// }
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
 
-// .modal-body {
-//   background-color: #f9fafb;
+.modal-body {
 
-//   .form-floating {
-//     label {
-//       color: #6b7280;
-//     }
+    .modal-body-heading{
+        color: white;
+    }
 
-//     .form-control {
-//       border-radius: 6px;
-//       border-color: #cbd5e1;
-//       transition: border-color 0.2s;
+  .form-floating {
+    label {
+      color: #6b7280;
+    }
 
-//       &:focus {
-//         border-color: #1976d2;
-//         box-shadow: 0 0 0 0.1rem rgba(25, 118, 210, 0.25);
-//       }
-//     }
-//   }
-// }
+    .form-control {
+      border-radius: 6px;
+      border-color: #ff4081;
+      transition: border-color 0.2s;
 
-// .modal-footer {
+      &:focus {
+        border-color: #ff4081;
+        box-shadow: 0 0 0 0.1rem rgb(255, 64, 129, 0.25)
+      }
+    }
+  }
+}
+
+.modal-footer {
 //   background-color: #f1f5f9;
 //   border-top: none;
 
-//   button.btn-primary {
-//     background-color: #1976d2;
-//     border: none;
-//     font-weight: 500;
+  button.btn-primary {
+    background-color: #ff4081;
+    border: none;
+    font-weight: 500;
 
-//     &:hover {
-//       background-color: #1565c0;
-//     }
-//   }
-// }
+    &:hover {
+      background-color: #ff4081;
+    }
+  }
+}
 
 /* Mini Statement Table */
 .table {
   margin-bottom: 0;
   th {
-    background-color: #1976d2;
+    background-color: #ff4081;
     color: white;
     font-weight: 500;
   }
@@ -218,4 +223,16 @@ Model
   flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0 1.2rem 1rem 1.2rem;
+}
+
+
+:host ::ng-deep .mat-mdc-card-content {
+  p.text-muted {
+    color: rgba(255, 255, 255, 0.7) !important; // A brighter, light grey
+  }
+
+  // Also make the account number text fully white
+  p.h5 {
+    color: #ffffff;
+  }
 }

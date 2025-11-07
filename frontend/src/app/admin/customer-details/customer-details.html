@@ -10,7 +10,7 @@
 
   <div *ngIf="!isLoading" class="row">
     <div *ngFor="let account of accounts" class="col-lg-6 col-md-12 mb-4">
-      <mat-card>
+      <mat-card class="glass-card">
         <mat-card-header>
           <mat-card-title>{{ account.accountType }} Account</mat-card-title>
           <mat-card-subtitle><span class="badge" [ngClass]="{

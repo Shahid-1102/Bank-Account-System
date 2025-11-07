@@ -5,7 +5,7 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <mat-card *ngIf="!isLoading && profile">
+  <mat-card *ngIf="!isLoading && profile" class="glass-card">
     <mat-card-header>
       <mat-card-title>{{ profile.fullName }}</mat-card-title>
       <mat-card-subtitle>{{ profile.role }}</mat-card-subtitle>

@@ -19,30 +19,73 @@
     <div *ngFor="let account of accounts" class="col-lg-6 col-md-12 mb-4">
       <mat-card class="glass-card">
         <mat-card-header>
-          <mat-card-title>{{ account.accountType }} Account</mat-card-title>
+          <div class="card-header-wrapper">
+            <div>
+              <mat-card-title>{{ account.accountType | titlecase }} Account</mat-card-title>
+              <mat-card-subtitle>Account Details</mat-card-subtitle>
+            </div>
+            <!-- <mat-card-title>{{ account.accountType }} Account</mat-card-title>
           <mat-card-subtitle>
-            <span class="badge" [ngClass]="{
-              'bg-warning text-dark': account.status === 'PENDING',
-              'bg-success': account.status === 'APPROVED',
-              'bg-danger': account.status === 'REJECTED'
-            }">{{ account.status }}</span>
-          </mat-card-subtitle>
+            <span
+              class="badge"
+              [ngClass]="{
+                'bg-warning text-dark': account.status === 'PENDING',
+                'bg-success': account.status === 'APPROVED',
+                'bg-danger': account.status === 'REJECTED'
+              }"
+              >{{ account.status }}</span
+            >
+          </mat-card-subtitle> -->
+            <span
+              class="badge rounded-pill"
+              [ngClass]="{
+                'bg-warning text-dark': account.status === 'PENDING',
+                'bg-success': account.status === 'APPROVED',
+                'bg-danger': account.status === 'REJECTED'
+              }"
+              >{{ account.status }}</span
+            >
+          </div>
         </mat-card-header>
         <mat-card-content>
           <p class="text-muted mb-1">Account Number</p>
           <p class="h5">{{ account.accountNumber }}</p>
           <p class="text-muted mb-1 mt-3">Current Balance</p>
-          <h2 class="display-6 fw-bold">{{ account.balance | currency:'INR' }}</h2>
+          <h2 class="display-6 fw-bold">{{ account.balance | currency : 'INR' }}</h2>
           <p *ngIf="account.status === 'REJECTED'" class="text-danger small mt-2">
             <strong>Reason:</strong> {{ account.adminRemarks }}
           </p>
         </mat-card-content>
         <mat-card-actions *ngIf="account.status === 'APPROVED'">
-          <button mat-flat-button color="primary" (click)="openTransactionModal(txModal, 'deposit', account.accountNumber)">Deposit</button>
-          <button mat-stroked-button color="primary" (click)="openTransactionModal(txModal, 'withdraw', account.accountNumber)">Withdraw</button>
-          <button mat-stroked-button color="accent" (click)="openTransactionModal(txModal, 'transfer', account.accountNumber)">Transfer</button>
-          <button mat-button (click)="openMiniStatementModal(miniStatement, account.accountNumber)">Mini Statement</button>
-          <a mat-button [routerLink]="['/customer/statement']" [queryParams]="{ accountNumber: account.accountNumber }">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="openTransactionModal(txModal, 'deposit', account.accountNumber)"
+          >
+            Deposit
+          </button>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="openTransactionModal(txModal, 'withdraw', account.accountNumber)"
+          >
+            Withdraw
+          </button>
+          <button
+            mat-stroked-button
+            color="accent"
+            (click)="openTransactionModal(txModal, 'transfer', account.accountNumber)"
+          >
+            Transfer
+          </button>
+          <button mat-button (click)="openMiniStatementModal(miniStatement, account.accountNumber)">
+            Mini Statement
+          </button>
+          <a
+            mat-button
+            [routerLink]="['/customer/statement']"
+            [queryParams]="{ accountNumber: account.accountNumber }"
+          >
             <mat-icon>picture_as_pdf</mat-icon>
             Generate Statement
           </a>
@@ -52,7 +95,6 @@
   </div>
 </div>
 
-
 <!-- Transaction Modal Template -->
 <ng-template #txModal let-modal>
   <div class="modal-header">
@@ -61,20 +103,39 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="transactionForm" (ngSubmit)="submitTransaction()">
-      <p><strong>From Account:</strong> {{ selectedAccountForTx }}</p>
+      <p class="modal-body-heading"><strong>From Account:</strong> {{ selectedAccountForTx }}</p>
       <div class="form-floating mb-3">
-        <input type="number" class="form-control" id="txAmount" placeholder="Amount" formControlName="amount">
+        <input
+          type="number"
+          class="form-control"
+          id="txAmount"
+          placeholder="Amount"
+          formControlName="amount"
+        />
         <label for="txAmount">Amount</label>
       </div>
       <div *ngIf="transactionForm.get('type')?.value === 'transfer'" class="form-floating mb-3">
-        <input type="text" class="form-control" id="toAccount" placeholder="Recipient Account" formControlName="toAccountNumber">
+        <input
+          type="text"
+          class="form-control"
+          id="toAccount"
+          placeholder="Recipient Account"
+          formControlName="toAccountNumber"
+        />
         <label for="toAccount">Recipient Account Number</label>
       </div>
     </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="submitTransaction()" [disabled]="transactionForm.invalid">Submit</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="submitTransaction()"
+      [disabled]="transactionForm.invalid"
+    >
+      Submit
+    </button>
   </div>
 </ng-template>
 
@@ -86,18 +147,26 @@
   </div>
   <div class="modal-body">
     <table class="table table-sm table-striped">
-      <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Balance After</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Balance After</th>
+        </tr>
+      </thead>
       <tbody>
         <tr *ngFor="let tx of miniStatementData">
           <td *ngIf="tx.error" colspan="5" class="text-danger text-center">{{ tx.error }}</td>
           <ng-container *ngIf="!tx.error">
-            <td>{{ tx.timestamp | date:'short' }}</td>
+            <td>{{ tx.timestamp | date : 'short' }}</td>
             <td>{{ tx.description }}</td>
             <td>{{ tx.transactionType }}</td>
             <td [ngClass]="tx.transactionType === 'DEPOSIT' ? 'text-success' : 'text-danger'">
-              {{ tx.amount | currency:'INR' }}
+              {{ tx.amount | currency : 'INR' }}
             </td>
-            <td>{{ tx.balanceAfter | currency:'INR' }}</td>
+            <td>{{ tx.balanceAfter | currency : 'INR' }}</td>
           </ng-container>
         </tr>
         <tr *ngIf="miniStatementData.length === 0">
