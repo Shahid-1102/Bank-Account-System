@@ -3,7 +3,7 @@
 <div class="auth-container p-3">
   <div class="card auth-card">
     <div class="card-body p-4 p-md-5">
-      <h2 class="text-center fw-bold mb-2">Bank of Trust</h2>
+      <h2 class="text-center fw-bold mb-2">Bank of Manhattan</h2>
       <p class="text-center text-muted mb-4">Create Your Customer Account</p>
 
       <ngb-alert *ngIf="successMessage" [type]="'success'" (closed)="successMessage = null">
@@ -59,7 +59,8 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="registerForm.invalid">Register</button>
+        <!-- <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="registerForm.invalid">Register</button> -->
+         <button mat-flat-button color="accent" class="w-100 btn-lg" type="submit" [disabled]="registerForm.invalid">Register</button>
       </form>
       <hr class="my-4">
       <div class="text-center">

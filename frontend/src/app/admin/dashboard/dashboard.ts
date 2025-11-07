@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from "@angular/router";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Reason, ReasonDialogData } from '../../shared/dialogs/reason/reason';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +25,7 @@ import { RouterLink } from "@angular/router";
   imports: [
     CommonModule, MatCardModule, MatProgressSpinnerModule, MatTableModule,
     MatPaginatorModule, MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    RouterLink
+    RouterLink, MatDialogModule 
 ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
@@ -32,6 +34,7 @@ export class Dashboard implements OnInit, AfterViewInit {
   // Services
   private adminService = inject(AdminService);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
   
   // Data properties
   stats: AdminStats | null = null;
@@ -112,14 +115,35 @@ export class Dashboard implements OnInit, AfterViewInit {
     });
   }
 
+  // reject(accountId: number): void {
+  //   const reason = prompt('Please enter the reason for rejection (this will be visible to the customer):');
+  //   if (reason && reason.trim()) {
+  //     this.adminService.rejectAccount(accountId, reason).subscribe(() => {
+  //       this.snackBar.open('Account rejected successfully!', 'Close', { duration: 3000 });
+  //       this.refreshData();
+  //     });
+  //   }
+  // }
+
   reject(accountId: number): void {
-    const reason = prompt('Please enter the reason for rejection (this will be visible to the customer):');
-    if (reason && reason.trim()) {
-      this.adminService.rejectAccount(accountId, reason).subscribe(() => {
-        this.snackBar.open('Account rejected successfully!', 'Close', { duration: 3000 });
-        this.refreshData();
-      });
-    }
+    const dialogRef = this.dialog.open<Reason, ReasonDialogData, string>(Reason, {
+      width: '400px',
+      data: {
+        title: 'Confirm Rejection',
+        message: 'Please provide a clear reason for rejecting this account application. The reason will be visible to the customer.',
+        label: 'Rejection Reason'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(reason => {
+      // The 'reason' will be the text from the dialog, or undefined if the user cancelled
+      if (reason) {
+        this.adminService.rejectAccount(accountId, reason).subscribe(() => {
+          this.snackBar.open('Account rejected successfully!', 'Close', { duration: 3000 });
+          this.refreshData();
+        });
+      }
+    });
   }
   
   refreshData(): void {

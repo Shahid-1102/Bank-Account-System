@@ -8,6 +8,8 @@ import { Auth } from '../services/auth';
 
 // ng-bootstrap and other imports
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxShinyTextComponent } from "@omnedia/ngx-shiny-text";
+import { MatButtonModule } from '@angular/material/button';
 
 // Custom Validator: Must be defined outside the class or as a static method.
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -31,10 +33,12 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbAlertModule
-  ],
+    NgbAlertModule,
+    NgxShinyTextComponent,
+    MatButtonModule 
+],
   templateUrl: './register.html',
-  styleUrls: ['./register.scss']
+  styleUrls: ['./register.scss', '../auth.scss']
 })
 export class Register {
   registerForm: FormGroup;

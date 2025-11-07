@@ -6,6 +6,8 @@ import { Auth } from '../services/auth';
 
 // ng-bootstrap and other imports
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxShinyTextComponent } from "@omnedia/ngx-shiny-text";
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +16,12 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbAlertModule
-  ],
+    NgbAlertModule,
+    NgxShinyTextComponent,
+    MatButtonModule
+],
   templateUrl: './login.html',
-  styleUrls: ['./login.scss']
+  styleUrls: ['./login.scss', '../auth.scss']
 })
 export class Login {
   loginForm: FormGroup;

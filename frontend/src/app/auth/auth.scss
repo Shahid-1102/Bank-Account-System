@@ -1,0 +1,60 @@
+/* Path: src/app/auth/auth.scss */
+
+// This targets the main container for both login and register pages
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; // THE FIX: Use min-height to allow the page to grow and scroll
+  padding: 2rem 1rem; // Add vertical padding
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  border: none; // Remove the default card border
+
+  // --- THE GLASS EFFECT ---
+  background-color: rgba(30, 30, 30, 0.65); // Semi-transparent dark grey
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); // For Safari
+  border: 1px solid rgba(255, 255, 255, 0.1); // Subtle edge highlight
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 1rem;
+}
+
+// Style the text and links to be readable on the dark, glassy card
+.card-body {
+  color: #f1f1f1; // Light text color
+
+  .text-muted {
+    color: rgba(255, 255, 255, 0.6) !important; // Override bootstrap's default
+  }
+
+  a {
+    color: #64b5f6; // A bright blue for links
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // Make form labels readable
+  .form-floating > label {
+    color: #aaa;
+  }
+
+  // Make form inputs glassy too
+  .form-control {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+
+    &:focus {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-color: #64b5f6;
+      box-shadow: none;
+      color: #fff;
+    }
+  }
+}

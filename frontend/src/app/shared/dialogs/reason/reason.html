@@ -1,0 +1,13 @@
+<!-- Path: src/app/shared/dialogs/reason/reason.html -->
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  <p>{{ data.message }}</p>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>{{ data.label }}</mat-label>
+    <textarea matInput [(ngModel)]="reasonText" cdkFocusInitial rows="3"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="warn" [disabled]="!reasonText.trim()" (click)="onConfirm()">Confirm</button>
+</div>

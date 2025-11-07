@@ -1,119 +1,167 @@
-// Import Material Design theme variables
-@use '@angular/material' as mat;
+// // Import Material Design theme variables
+// @use '@angular/material' as mat;
 
-// Root container styling
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 80vh;
-  padding: 2rem;
-  background: linear-gradient(135deg, #e3f2fd 0%, #f9f9f9 100%);
-  animation: fadeIn 0.6s ease-in-out;
-}
+// // Root container styling
+// .container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: flex-start;
+//   min-height: 80vh;
+//   padding: 2rem;
+//   background: linear-gradient(135deg, #e3f2fd 0%, #f9f9f9 100%);
+//   animation: fadeIn 0.6s ease-in-out;
+// }
 
-// Card styling
-mat-card {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  transition: all 0.3s ease-in-out;
+// // Card styling
+// mat-card {
+//   width: 100%;
+//   max-width: 600px;
+//   border-radius: 12px;
+//   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+//   background: #ffffff;
+//   transition: all 0.3s ease-in-out;
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-  }
+//   &:hover {
+//     transform: translateY(-4px);
+//     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+//   }
 
-  mat-card-header {
-    text-align: center;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
+//   mat-card-header {
+//     text-align: center;
+//     border-bottom: 1px solid #e0e0e0;
+//     padding-bottom: 1rem;
+//     margin-bottom: 1rem;
 
-    mat-card-title {
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: #0d47a1;
-    }
+//     mat-card-title {
+//       font-size: 1.6rem;
+//       font-weight: 600;
+//       color: #0d47a1;
+//     }
 
-    mat-card-subtitle {
-      font-size: 1rem;
-      color: #757575;
-    }
-  }
+//     mat-card-subtitle {
+//       font-size: 1rem;
+//       color: #757575;
+//     }
+//   }
 
-  mat-card-content {
-    padding: 1rem 1.5rem;
-  }
-}
+//   mat-card-content {
+//     padding: 1rem 1.5rem;
+//   }
+// }
 
-// Form layout
-form {
+// // Form layout
+// form {
+//   display: flex;
+//   flex-direction: column;
+
+//   mat-form-field {
+//     width: 100%;
+//     margin-bottom: 1.5rem;
+//   }
+
+//   mat-label {
+//     color: #0d47a1;
+//     font-weight: 500;
+//   }
+
+//   input,
+//   mat-select {
+//     font-size: 1rem;
+//   }
+
+//   button[type="submit"] {
+//     font-weight: 600;
+//     letter-spacing: 0.5px;
+//     padding: 0.75rem 1.5rem;
+//     border-radius: 6px;
+//   }
+
+//   a[mat-button] {
+//     color: #0d47a1;
+//     font-weight: 500;
+//     text-decoration: none;
+//     transition: color 0.2s ease;
+
+//     &:hover {
+//       color: #1976d2;
+//     }
+//   }
+// }
+
+// // Error messages
+// mat-error {
+//   font-size: 0.85rem;
+//   color: #d32f2f;
+//   font-weight: 500;
+// }
+
+// // Smooth animations
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateY(15px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+// // Responsive design
+// @media (max-width: 768px) {
+//   .container {
+//     padding: 1rem;
+//   }
+
+//   mat-card {
+//     padding: 0.5rem;
+//   }
+// }
+
+
+/* Path for BOTH admin.scss and customer.scss */
+
+:host {
   display: flex;
   flex-direction: column;
-
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 1.5rem;
-  }
-
-  mat-label {
-    color: #0d47a1;
-    font-weight: 500;
-  }
-
-  input,
-  mat-select {
-    font-size: 1rem;
-  }
-
-  button[type="submit"] {
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-  }
-
-  a[mat-button] {
-    color: #0d47a1;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: #1976d2;
-    }
-  }
+  height: 100%;
 }
 
-// Error messages
-mat-error {
-  font-size: 0.85rem;
-  color: #d32f2f;
+.header-toolbar {
+  // Make the header transparent so the glass effect (applied in HTML) is visible
+  background: transparent !important;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: 0; // Headers shouldn't have rounded corners
+}
+
+.sidenav-container {
+  flex: 1;
+  // Make the container itself transparent
+  background: transparent;
+}
+
+.sidenav {
+  width: 240px;
+  // Make the sidebar transparent so the glass effect (applied in HTML) is visible
+  background: transparent !important;
+  border-radius: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.welcome-text {
+  margin-right: 1.5rem;
+  font-size: 1rem;
+}
+
+.active-link {
+  background-color: rgba(63, 81, 181, 0.1);
+  color: #2a2b31;
   font-weight: 500;
-}
-
-// Smooth animations
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-
-  mat-card {
-    padding: 0.5rem;
-  }
+  border-right: 3px solid #34353e;
 }

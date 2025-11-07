@@ -32,6 +32,8 @@
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
+    "@omnedia/ngx-meteors": "^3.0.0",
+    "@omnedia/ngx-shiny-text": "^3.0.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.6",
     "rxjs": "~7.8.0",
